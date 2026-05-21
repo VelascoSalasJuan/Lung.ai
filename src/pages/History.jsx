@@ -21,6 +21,9 @@ function History() {
     status: analisis.confianza >= 50 ? 'warning' : 'success'
   })).reverse() // Mostrar los más recientes primero
 
+  // Datos para el gráfico (solo los últimos 5, en orden cronológico)
+  const chartData = historyData.slice(0, 5).reverse()
+
   return (
     <div className="history-screen">
       <div className="history-header">
@@ -48,14 +51,14 @@ function History() {
                 <h3>📈 Evolución del Riesgo</h3>
                 <div className="chart-container">
                   <div className="chart-bars">
-                    {historyData.slice(0, 5).reverse().map((item, index) => (
+                    {chartData.map((item, index) => (
                       <div key={index} className="chart-bar" style={{ height: `${item.risk}%` }} data-label={item.date.split(' ')[0]}>
                         <span className="bar-label">{item.risk}%</span>
                       </div>
                     ))}
                   </div>
                   <div className="chart-labels">
-                    {historyData.slice(0, 5).reverse().map((item, index) => (
+                    {chartData.map((item, index) => (
                       <span key={index}>{item.date.split(' ')[0]}</span>
                     ))}
                   </div>
@@ -67,16 +70,22 @@ function History() {
                 <div className="oxygen-chart">
                   <div className="oxygen-line"></div>
                   <div className="oxygen-points">
-                    <div className="point" style={{ left: '10%', bottom: '98%' }}></div>
-                    <div className="point" style={{ left: '32%', bottom: '99%' }}></div>
-                    <div className="point" style={{ left: '55%', bottom: '96%' }}></div>
-                    <div className="point" style={{ left: '77%', bottom: '98%' }}></div>
-                    <div className="point" style={{ left: '90%', bottom: '97%' }}></div>
+                    {chartData.map((item, index) => (
+                      <div 
+                        key={index} 
+                        className="point" 
+                        style={{ 
+                          left: `${(index + 1) * (80 / chartData.length) + 10}%`, 
+                          bottom: `${100 - item.risk}%` 
+                        }}
+                      ></div>
+                    ))}
                   </div>
                 </div>
                 <div className="oxygen-legend">
-                  <span>96-99%</span>
-                  <span className="current">Actual: 98%</span>
+                  <span>Inicio</span>
+                  <span className="current">Actual: {chartData.length > 0 ? chartData[chartData.length - 1].risk + '%' : '--'}</span>
+                  <span>Fin</span>
                 </div>
               </div>
             </div>

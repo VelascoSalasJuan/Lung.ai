@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import './Results.css'
-import { saveAnalisisToHistorial, saveUltimoAnalisis, generateAnalisisId, getCurrentDateTime } from '../utils/localStorage'
+import { saveAnalisisToHistorial, saveUltimoAnalisis, generateAnalisisId, getCurrentDateTime, getHistorialAnalisis } from '../utils/localStorage'
 
 function Results() {
   const navigate = useNavigate()
@@ -14,7 +14,12 @@ function Results() {
   }
 
   // Guardar el análisis cuando se monta el componente
+  const hasSaved = useRef(false)
+  
   useEffect(() => {
+    // Evitar guardar dos veces (React StrictMode en desarrollo)
+    if (hasSaved.current) return
+    
     const nuevoAnalisis = {
       id: generateAnalisisId(),
       fecha: getCurrentDateTime(),
@@ -22,15 +27,24 @@ function Results() {
       confianza: analisisActual.confianza
     }
 
-    // Guardar en historial
-    saveAnalisisToHistorial(nuevoAnalisis)
+    // Verificar que no sea duplicado del último análisis
+    const historial = getHistorialAnalisis()
+    const ultimo = historial.length > 0 ? historial[historial.length - 1] : null
+    
+    // Solo guardar si es diferente al último análisis (mismo resultado y misma fecha)
+    if (!ultimo || ultimo.resultado !== nuevoAnalisis.resultado || ultimo.fecha !== nuevoAnalisis.fecha) {
+      // Guardar en historial
+      saveAnalisisToHistorial(nuevoAnalisis)
 
-    // Guardar como último análisis
-    saveUltimoAnalisis({
-      fecha: nuevoAnalisis.fecha,
-      resultado: nuevoAnalisis.resultado,
-      confianza: nuevoAnalisis.confianza
-    })
+      // Guardar como último análisis
+      saveUltimoAnalisis({
+        fecha: nuevoAnalisis.fecha,
+        resultado: nuevoAnalisis.resultado,
+        confianza: nuevoAnalisis.confianza
+      })
+    }
+    
+    hasSaved.current = true
   }, [])
 
   return (
