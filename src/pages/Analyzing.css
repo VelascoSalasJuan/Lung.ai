@@ -1,0 +1,147 @@
+.analyzing-screen {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.analyzing-content {
+  text-align: center;
+  color: white;
+  max-width: 500px;
+}
+
+.sound-waves {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 40px;
+  height: 60px;
+  align-items: center;
+}
+
+.wave {
+  width: 6px;
+  background: white;
+  border-radius: 3px;
+  animation: wave 1s ease-in-out infinite;
+}
+
+.wave-1 { animation-delay: 0s; height: 30px; }
+.wave-2 { animation-delay: 0.1s; height: 45px; }
+.wave-3 { animation-delay: 0.2s; height: 60px; }
+.wave-4 { animation-delay: 0.3s; height: 45px; }
+.wave-5 { animation-delay: 0.4s; height: 30px; }
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.5); }
+  50% { transform: scaleY(1); }
+}
+
+.ai-processor {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 40px;
+}
+
+.brain-icon {
+  font-size: 4rem;
+  position: relative;
+  z-index: 2;
+}
+
+.processing-ring {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+}
+
+.processing-ring::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border: 3px solid transparent;
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite reverse;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.analyzing-title {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.analyzing-subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 30px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: white;
+  border-radius: 3px;
+  animation: progress 4s ease-in-out;
+}
+
+@keyframes progress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+.analyzing-steps {
+  text-align: left;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.step.completed,
+.step.active {
+  opacity: 1;
+}
+
+.step-icon {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.step.active .step-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

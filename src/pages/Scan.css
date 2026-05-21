@@ -1,0 +1,150 @@
+.scan-screen {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.scan-header {
+  color: white;
+  margin-bottom: 30px;
+}
+
+.back-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 15px;
+  padding: 0;
+}
+
+.scan-header h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.scan-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.scan-instructions {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-around;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.instruction-step {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.step-icon {
+  font-size: 2.5rem;
+}
+
+.instruction-step p {
+  margin: 0;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.record-button-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.record-button {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+  color: white;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: pulse 2s infinite;
+}
+
+.record-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(255, 107, 107, 0.6);
+}
+
+.record-button:active {
+  transform: scale(0.95);
+}
+
+.recording-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  color: white;
+}
+
+.recording-dot {
+  width: 20px;
+  height: 20px;
+  background: #ff4444;
+  border-radius: 50%;
+  animation: blink 1s infinite;
+}
+
+.recording-indicator p {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 20px rgba(255, 107, 107, 0);
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.scan-tips {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  padding: 25px;
+  color: #333;
+}
+
+.scan-tips h3 {
+  margin: 0 0 15px;
+  color: #667eea;
+}
+
+.scan-tips ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.scan-tips li {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
