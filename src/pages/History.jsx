@@ -1,16 +1,25 @@
 import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import './History.css'
+import { getHistorialAnalisis } from '../utils/localStorage'
 
 function History() {
   const navigate = useNavigate()
+  const [historial, setHistorial] = useState([])
 
-  const historyData = [
-    { date: '20/05/2026', result: 'Posible bronquitis leve', risk: 65, status: 'warning' },
-    { date: '15/05/2026', result: 'Pulmones saludables', risk: 15, status: 'success' },
-    { date: '10/05/2026', result: 'Irritación leve', risk: 35, status: 'warning' },
-    { date: '05/05/2026', result: 'Pulmones saludables', risk: 10, status: 'success' },
-    { date: '01/05/2026', result: 'Patrones normales', risk: 20, status: 'success' },
-  ]
+  useEffect(() => {
+    // Cargar historial desde LocalStorage
+    const datosHistorial = getHistorialAnalisis()
+    setHistorial(datosHistorial)
+  }, [])
+
+  // Convertir datos del historial al formato esperado por el componente
+  const historyData = historial.map(analisis => ({
+    date: analisis.fecha,
+    result: analisis.resultado,
+    risk: analisis.confianza,
+    status: analisis.confianza >= 50 ? 'warning' : 'success'
+  })).reverse() // Mostrar los más recientes primero
 
   return (
     <div className="history-screen">
@@ -27,28 +36,16 @@ function History() {
             <h3>📈 Evolución del Riesgo</h3>
             <div className="chart-container">
               <div className="chart-bars">
-                <div className="chart-bar" style={{ height: '65%' }} data-label="20/05">
-                  <span className="bar-label">65%</span>
-                </div>
-                <div className="chart-bar" style={{ height: '15%' }} data-label="15/05">
-                  <span className="bar-label">15%</span>
-                </div>
-                <div className="chart-bar" style={{ height: '35%' }} data-label="10/05">
-                  <span className="bar-label">35%</span>
-                </div>
-                <div className="chart-bar" style={{ height: '10%' }} data-label="05/05">
-                  <span className="bar-label">10%</span>
-                </div>
-                <div className="chart-bar" style={{ height: '20%' }} data-label="01/05">
-                  <span className="bar-label">20%</span>
-                </div>
+                {historyData.slice(0, 5).reverse().map((item, index) => (
+                  <div key={index} className="chart-bar" style={{ height: `${item.risk}%` }} data-label={item.date.split(' ')[0]}>
+                    <span className="bar-label">{item.risk}%</span>
+                  </div>
+                ))}
               </div>
               <div className="chart-labels">
-                <span>20/05</span>
-                <span>15/05</span>
-                <span>10/05</span>
-                <span>05/05</span>
-                <span>01/05</span>
+                {historyData.slice(0, 5).reverse().map((item, index) => (
+                  <span key={index}>{item.date.split(' ')[0]}</span>
+                ))}
               </div>
             </div>
           </div>

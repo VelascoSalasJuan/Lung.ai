@@ -1,8 +1,37 @@
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 import './Results.css'
+import { saveAnalisisToHistorial, saveUltimoAnalisis, generateAnalisisId, getCurrentDateTime } from '../utils/localStorage'
 
 function Results() {
   const navigate = useNavigate()
+
+  // Datos simulados del análisis actual
+  const analisisActual = {
+    resultado: 'Posible bronquitis leve',
+    confianza: 65,
+    riesgo: 'moderado'
+  }
+
+  // Guardar el análisis cuando se monta el componente
+  useEffect(() => {
+    const nuevoAnalisis = {
+      id: generateAnalisisId(),
+      fecha: getCurrentDateTime(),
+      resultado: analisisActual.resultado,
+      confianza: analisisActual.confianza
+    }
+
+    // Guardar en historial
+    saveAnalisisToHistorial(nuevoAnalisis)
+
+    // Guardar como último análisis
+    saveUltimoAnalisis({
+      fecha: nuevoAnalisis.fecha,
+      resultado: nuevoAnalisis.resultado,
+      confianza: nuevoAnalisis.confianza
+    })
+  }, [])
 
   return (
     <div className="results-screen">

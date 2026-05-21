@@ -97,3 +97,43 @@
 .btn-secondary:hover {
   background: rgba(102, 126, 234, 0.1);
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-screen {
+    padding: 15px;
+  }
+
+  .login-container {
+    padding: 30px;
+    max-width: 100%;
+  }
+
+  .login-header h1 {
+    font-size: 2rem;
+  }
+
+  .btn {
+    padding: 15px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 25px;
+  }
+
+  .login-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .btn {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+}

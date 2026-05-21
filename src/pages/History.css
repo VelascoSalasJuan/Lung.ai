@@ -10,13 +10,31 @@
 }
 
 .back-btn {
-  background: transparent;
-  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   color: white;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
   margin-bottom: 15px;
-  padding: 0;
+  padding: 10px 20px;
+  border-radius: 10px;
+  transition: all 0.3s;
+  backdrop-filter: blur(10px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateX(-3px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.back-btn:active {
+  transform: translateX(0);
 }
 
 .history-header h1 {
@@ -239,4 +257,90 @@
 
 .btn-primary:hover {
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .history-screen {
+    padding: 15px;
+  }
+
+  .history-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .back-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  .chart-card {
+    padding: 20px;
+  }
+
+  .chart-card h3 {
+    font-size: 1rem;
+  }
+
+  .chart-bars {
+    height: 120px;
+  }
+
+  .chart-bar {
+    width: 35px;
+  }
+
+  .bar-label {
+    font-size: 0.7rem;
+  }
+
+  .chart-labels {
+    font-size: 0.7rem;
+  }
+
+  .history-list {
+    padding: 20px;
+  }
+
+  .history-item {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .history-item {
+    text-align: center;
+  }
+
+  .history-risk {
+    flex-direction: row;
+    gap: 5px;
+  }
+
+  .history-status {
+    margin: 0 auto;
+  }
+
+  .btn {
+    padding: 15px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .history-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .chart-bars {
+    height: 100px;
+  }
+
+  .chart-bar {
+    width: 30px;
+  }
+
+  .history-list h3 {
+    font-size: 1.1rem;
+  }
 }
