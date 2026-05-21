@@ -19,6 +19,24 @@
   opacity: 0.9;
 }
 
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.header-content > div {
+  text-align: center;
+  flex: 1;
+}
+
 .dashboard-content {
   max-width: 600px;
   margin: 0 auto;
@@ -161,6 +179,59 @@
   transform: translateY(0);
 }
 
+.delete-account-btn {
+  background: rgba(244, 67, 54, 0.2);
+  border: 2px solid rgba(244, 67, 54, 0.3);
+  color: #f44336;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  backdrop-filter: blur(10px);
+}
+
+.delete-account-btn:hover {
+  background: rgba(244, 67, 54, 0.3);
+  border-color: rgba(244, 67, 54, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(244, 67, 54, 0.2);
+}
+
+.delete-account-btn:active {
+  transform: translateY(0);
+}
+
+.empty-state-card {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  justify-content: center;
+}
+
+.empty-icon {
+  font-size: 3rem;
+}
+
+.empty-info h3 {
+  margin: 0 0 10px;
+  color: #333;
+  font-size: 1.3rem;
+}
+
+.empty-info p {
+  margin: 0;
+  color: #666;
+  line-height: 1.5;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .dashboard-screen {
@@ -212,6 +283,27 @@
 
   .status-card {
     padding: 15px;
+  }
+
+  .empty-state-card {
+    padding: 20px;
+    flex-direction: column;
+  }
+
+  .empty-icon {
+    font-size: 2.5rem;
+  }
+
+  .empty-info h3 {
+    font-size: 1.1rem;
+  }
+
+  .empty-info p {
+    font-size: 0.9rem;
+  }
+
+  .header-buttons {
+    flex-direction: row;
   }
 
   .status-icon {

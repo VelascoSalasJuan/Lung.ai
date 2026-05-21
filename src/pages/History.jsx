@@ -31,60 +31,74 @@ function History() {
       </div>
 
       <div className="history-content">
-        <div className="charts-section">
-          <div className="chart-card">
-            <h3>📈 Evolución del Riesgo</h3>
-            <div className="chart-container">
-              <div className="chart-bars">
-                {historyData.slice(0, 5).reverse().map((item, index) => (
-                  <div key={index} className="chart-bar" style={{ height: `${item.risk}%` }} data-label={item.date.split(' ')[0]}>
-                    <span className="bar-label">{item.risk}%</span>
+        {historial.length === 0 ? (
+          <div className="empty-state-container">
+            <div className="empty-state">
+              <div className="empty-icon">📋</div>
+              <div className="empty-info">
+                <h3>Aún no tienes análisis registrados</h3>
+                <p>Realiza tu primer análisis respiratorio para comenzar a generar tu historial.</p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="charts-section">
+              <div className="chart-card">
+                <h3>📈 Evolución del Riesgo</h3>
+                <div className="chart-container">
+                  <div className="chart-bars">
+                    {historyData.slice(0, 5).reverse().map((item, index) => (
+                      <div key={index} className="chart-bar" style={{ height: `${item.risk}%` }} data-label={item.date.split(' ')[0]}>
+                        <span className="bar-label">{item.risk}%</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                  <div className="chart-labels">
+                    {historyData.slice(0, 5).reverse().map((item, index) => (
+                      <span key={index}>{item.date.split(' ')[0]}</span>
+                    ))}
+                  </div>
+                </div>
               </div>
-              <div className="chart-labels">
-                {historyData.slice(0, 5).reverse().map((item, index) => (
-                  <span key={index}>{item.date.split(' ')[0]}</span>
-                ))}
-              </div>
-            </div>
-          </div>
 
-          <div className="chart-card">
-            <h3>💧 Saturación de Oxígeno</h3>
-            <div className="oxygen-chart">
-              <div className="oxygen-line"></div>
-              <div className="oxygen-points">
-                <div className="point" style={{ left: '10%', bottom: '98%' }}></div>
-                <div className="point" style={{ left: '32%', bottom: '99%' }}></div>
-                <div className="point" style={{ left: '55%', bottom: '96%' }}></div>
-                <div className="point" style={{ left: '77%', bottom: '98%' }}></div>
-                <div className="point" style={{ left: '90%', bottom: '97%' }}></div>
+              <div className="chart-card">
+                <h3>💧 Saturación de Oxígeno</h3>
+                <div className="oxygen-chart">
+                  <div className="oxygen-line"></div>
+                  <div className="oxygen-points">
+                    <div className="point" style={{ left: '10%', bottom: '98%' }}></div>
+                    <div className="point" style={{ left: '32%', bottom: '99%' }}></div>
+                    <div className="point" style={{ left: '55%', bottom: '96%' }}></div>
+                    <div className="point" style={{ left: '77%', bottom: '98%' }}></div>
+                    <div className="point" style={{ left: '90%', bottom: '97%' }}></div>
+                  </div>
+                </div>
+                <div className="oxygen-legend">
+                  <span>96-99%</span>
+                  <span className="current">Actual: 98%</span>
+                </div>
               </div>
             </div>
-            <div className="oxygen-legend">
-              <span>96-99%</span>
-              <span className="current">Actual: 98%</span>
-            </div>
-          </div>
-        </div>
 
-        <div className="history-list">
-          <h3>📝 Registros de análisis</h3>
-          {historyData.map((item, index) => (
-            <div key={index} className={`history-item ${item.status}`}>
-              <div className="history-date">{item.date}</div>
-              <div className="history-result">{item.result}</div>
-              <div className="history-risk">
-                <span className="risk-label">Riesgo:</span>
-                <span className="risk-value">{item.risk}%</span>
-              </div>
-              <div className={`history-status ${item.status}`}>
-                {item.status === 'success' ? '✓' : '⚠️'}
-              </div>
+            <div className="history-list">
+              <h3>📝 Registros de análisis</h3>
+              {historyData.map((item, index) => (
+                <div key={index} className={`history-item ${item.status}`}>
+                  <div className="history-date">{item.date}</div>
+                  <div className="history-result">{item.result}</div>
+                  <div className="history-risk">
+                    <span className="risk-label">Riesgo:</span>
+                    <span className="risk-value">{item.risk}%</span>
+                  </div>
+                  <div className={`history-status ${item.status}`}>
+                    {item.status === 'success' ? '✓' : '⚠️'}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
 
         <button className="btn btn-primary" onClick={() => navigate('/scan')}>
           🎤 Nuevo análisis

@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Login.css'
-import { saveUsuario, getUsuario } from '../utils/localStorage'
+import { saveUsuario, getUsuario, getUsuarioPorCorreo, setUsuarioActual, saveAnalisisToHistorial, saveUltimoAnalisis } from '../utils/localStorage'
 
 function Login() {
   const navigate = useNavigate()
@@ -12,20 +12,22 @@ function Login() {
   const [isRegistering, setIsRegistering] = useState(false)
 
   // Cargar datos del usuario si ya existe
-  useState(() => {
+  useEffect(() => {
     const usuarioExistente = getUsuario()
     if (usuarioExistente) {
       setEmail(usuarioExistente.correo || '')
       setNombre(usuarioExistente.nombre || '')
       setEdad(usuarioExistente.edad?.toString() || '')
     }
-  })
+  }, [])
 
   const handleLogin = (e) => {
     e.preventDefault()
-    // Verificar si el usuario existe
-    const usuarioExistente = getUsuario()
-    if (usuarioExistente && usuarioExistente.correo === email) {
+    // Verificar si el usuario existe por correo
+    const usuarioExistente = getUsuarioPorCorreo(email)
+    if (usuarioExistente) {
+      // Establecer como usuario actual
+      setUsuarioActual(usuarioExistente)
       navigate('/dashboard')
     } else {
       alert('Usuario no encontrado. Por favor regístrate.')
@@ -35,13 +37,31 @@ function Login() {
 
   const handleRegister = (e) => {
     e.preventDefault()
+    // Verificar si el correo ya está registrado
+    const usuarioExistente = getUsuarioPorCorreo(email)
+    if (usuarioExistente) {
+      alert('Este correo ya está registrado. Inicia sesión.')
+      setIsRegistering(false)
+      return
+    }
+
     const nuevoUsuario = {
       nombre: nombre,
       correo: email,
       edad: parseInt(edad)
     }
-    saveUsuario(nuevoUsuario)
-    navigate('/dashboard')
+    const guardado = saveUsuario(nuevoUsuario)
+    if (guardado) {
+      // Establecer como usuario actual
+      setUsuarioActual(nuevoUsuario)
+      // Inicializar datos vacíos para nuevo usuario
+      saveAnalisisToHistorial([])
+      saveUltimoAnalisis(null)
+      alert('¡Cuenta creada exitosamente!')
+      navigate('/dashboard')
+    } else {
+      alert('Error al guardar la cuenta. Intenta nuevamente.')
+    }
   }
 
   return (

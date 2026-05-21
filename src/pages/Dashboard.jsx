@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import './Dashboard.css'
-import { getUsuario, getUltimoAnalisis, getHistorialAnalisis } from '../utils/localStorage'
+import { getUsuario, getUltimoAnalisis, getHistorialAnalisis, eliminarCuenta } from '../utils/localStorage'
 
 function Dashboard() {
   const navigate = useNavigate()
@@ -28,9 +28,20 @@ function Dashboard() {
     navigate('/login')
   }
 
+  const handleEliminarCuenta = () => {
+    if (confirm('¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer y se borrarán todos tus datos.')) {
+      const eliminado = eliminarCuenta()
+      if (eliminado) {
+        navigate('/login')
+      } else {
+        alert('Error al eliminar la cuenta. Intenta nuevamente.')
+      }
+    }
+  }
+
   // Determinar nivel de riesgo basado en el último análisis
   const getRiskLevel = () => {
-    if (!ultimoAnalisis) return { level: 'low', label: 'Riesgo bajo', message: 'Tus pulmones están saludables' }
+    if (!ultimoAnalisis) return null // Retorna null si no hay análisis
     
     if (ultimoAnalisis.confianza >= 80) {
       return { level: 'high', label: 'Riesgo alto', message: 'Se detectaron anomalías' }
@@ -45,7 +56,7 @@ function Dashboard() {
 
   // Calcular días desde el último análisis
   const getDaysSinceLastAnalysis = () => {
-    if (!ultimoAnalisis) return 'Sin análisis'
+    if (!ultimoAnalisis) return null // Retorna null si no hay análisis
     
     const fechaAnalisis = new Date(ultimoAnalisis.fecha)
     const hoy = new Date()
@@ -64,30 +75,45 @@ function Dashboard() {
             <h1>🫁 LungAI</h1>
             <p>Bienvenido de nuevo{usuario ? `, ${usuario.nombre}` : ''}</p>
           </div>
-          <button className="logout-btn" onClick={handleLogout}>
-            🚪 Cerrar sesión
-          </button>
+          <div className="header-buttons">
+            <button className="delete-account-btn" onClick={handleEliminarCuenta}>
+              🗑️ Borrar cuenta
+            </button>
+            <button className="logout-btn" onClick={handleLogout}>
+              🚪 Cerrar sesión
+            </button>
+          </div>
         </div>
       </div>
 
       <div className="dashboard-content">
-        <div className={`status-card risk-${risk.level}`}>
-          <div className="status-icon">
-            {risk.level === 'low' ? '🟢' : risk.level === 'moderate' ? '🟡' : '🔴'}
+        {risk ? (
+          <div className={`status-card risk-${risk.level}`}>
+            <div className="status-icon">
+              {risk.level === 'low' ? '🟢' : risk.level === 'moderate' ? '🟡' : '🔴'}
+            </div>
+            <div className="status-info">
+              <h3>{risk.label}</h3>
+              <p>{risk.message}</p>
+            </div>
           </div>
-          <div className="status-info">
-            <h3>{risk.label}</h3>
-            <p>{risk.message}</p>
+        ) : (
+          <div className="empty-state-card">
+            <div className="empty-icon">🫁</div>
+            <div className="empty-info">
+              <h3>Bienvenido a Lung.AI</h3>
+              <p>Realiza tu primer análisis respiratorio para obtener resultados y estadísticas personalizadas.</p>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="stats-grid">
           <div className="stat-card">
             <div className="stat-icon">🫁</div>
             <div className="stat-info">
               <h4>Estado pulmonar</h4>
-              <p className="stat-value">{ultimoAnalisis ? `${100 - ultimoAnalisis.confianza}%` : '95%'}</p>
-              <p className="stat-label">{ultimoAnalisis ? 'Basado en análisis' : 'Saludable'}</p>
+              <p className="stat-value">{ultimoAnalisis ? `${100 - ultimoAnalisis.confianza}%` : '--'}</p>
+              <p className="stat-label">{ultimoAnalisis ? 'Basado en análisis' : 'Sin datos'}</p>
             </div>
           </div>
 
@@ -95,8 +121,8 @@ function Dashboard() {
             <div className="stat-icon">💧</div>
             <div className="stat-info">
               <h4>Oxígeno</h4>
-              <p className="stat-value">98%</p>
-              <p className="stat-label">Normal</p>
+              <p className="stat-value">{ultimoAnalisis ? '98%' : '--'}</p>
+              <p className="stat-label">Saturación</p>
             </div>
           </div>
 
@@ -104,7 +130,7 @@ function Dashboard() {
             <div className="stat-icon">📊</div>
             <div className="stat-info">
               <h4>Frecuencia</h4>
-              <p className="stat-value">16/min</p>
+              <p className="stat-value">{ultimoAnalisis ? '16/min' : '--'}</p>
               <p className="stat-label">Respiratoria</p>
             </div>
           </div>
@@ -113,7 +139,7 @@ function Dashboard() {
             <div className="stat-icon">📅</div>
             <div className="stat-info">
               <h4>Último análisis</h4>
-              <p className="stat-value">{getDaysSinceLastAnalysis()}</p>
+              <p className="stat-value">{getDaysSinceLastAnalysis() || '--'}</p>
               <p className="stat-label">{ultimoAnalisis ? 'Atrás' : 'Sin datos'}</p>
             </div>
           </div>
