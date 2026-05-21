@@ -1,16 +1,61 @@
-# React + Vite
+# Lung.AI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web responsiva para detección de enfermedades respiratorias mediante análisis de audio.
 
-Currently, two official plugins are available:
+## Descripción del Proyecto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Lung.AI es un prototipo MVP que utiliza inteligencia artificial para detectar enfermedades respiratorias analizando grabaciones de audio de la respiración y tos de los usuarios.
 
-## React Compiler
+## Estructura del Proyecto
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```
+src/
+├── components/          # Componentes principales de la aplicación
+│   ├── layout/        # Componentes de layout (Header, Footer, Navigation)
+│   │   ├── Header/
+│   │   ├── Footer/
+│   │   └── Navigation/
+│   ├── home/          # Página de inicio
+│   │   ├── Hero/
+│   │   └── Features/
+│   ├── recording/     # Funcionalidad de grabación de audio
+│   │   ├── AudioRecorder/
+│   │   └── RecordingControls/
+│   ├── analysis/      # Análisis y resultados
+│   │   ├── ResultsDisplay/
+│   │   └── DiseaseInfo/
+│   └── about/         # Información del proyecto
+│       ├── Team/
+│       └── Contact/
+├── assets/           # Imágenes y recursos estáticos
+├── styles/           # Estilos globales
+├── utils/            # Funciones utilitarias
+├── hooks/            # Custom hooks de React
+├── contexts/         # Contextos de React
+├── App.jsx           # Componente principal
+└── main.jsx          # Punto de entrada
+```
 
-## Expanding the ESLint configuration
+## Tecnologías
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React 18
+- Vite
+- ESLint
+
+## Instalación
+
+```bash
+npm install
+```
+
+## Desarrollo
+
+```bash
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+```
